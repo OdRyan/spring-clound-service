@@ -1,5 +1,6 @@
 package com.wzx.it.employeeservice.controller;
 
+import com.wzx.it.employeeservice.cache.EmployeeCache;
 import com.wzx.it.employeeservice.domain.EmployeeInfo;
 import com.wzx.it.employeeservice.service.impl.EmployeeInfoServiceImpl;
 import com.wzx.it.employeeservice.utils.JsonUtils;
@@ -19,17 +20,22 @@ import java.util.List;
 public class EmployeeInfoController {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeInfoController.class);
 
-    @Autowired private EmployeeInfoServiceImpl employeeInfoService;
+    @Autowired
+    private EmployeeInfoServiceImpl employeeInfoService;
 
-    @RequestMapping(value = "/getEmpInfos",method = RequestMethod.GET)
-    public String getEmpInfos(){
+    @Autowired
+    private EmployeeCache employeeCache;
+
+    @RequestMapping(value = "/getEmpInfos", method = RequestMethod.GET)
+    public String getEmpInfos() {
         LOGGER.info("查询人员信息begin");
         try {
-            List<EmployeeInfo> result = employeeInfoService.getEmpInfos();
+            List<EmployeeInfo> result = employeeCache.getAllEmployeesByCache();
+//            List<EmployeeInfo> result = employeeInfoService.getEmpInfos();
             LOGGER.info("查询人员信息begin");
             return JsonUtils.success(result);
         } catch (Exception e) {
-            LOGGER.info(e.getMessage(),e);
+            LOGGER.info(e.getMessage(), e);
             return JsonUtils.fail(e.getMessage());
         }
     }

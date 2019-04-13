@@ -10,4 +10,7 @@ import java.util.List;
 public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo,Integer> {
     @Transactional
     public void deleteEmployeeInfoByIdIn(List<Integer> ids);
+
+    public EmployeeInfo findEmployeeInfoById(Integer id);
+
 }
